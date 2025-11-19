@@ -24,29 +24,6 @@ Built with **React + Vite (frontend)** and **Node.js + Express + MongoDB (backen
 
 ---
 
-## Project Structure
-
-project-root/
-│
-├── backend/ # Node.js + Express + MongoDB API
-│ ├── server.js
-│ ├── models/
-│ ├── routes/
-│ ├── controllers/
-│ └── README.md
-│
-├── frontend/ # React + Vite + Tailwind UI
-│ ├── src/
-│ ├── public/
-│ └── README.md
-│
-└── README.md # (this file)
-
-yaml
-Copy code
-
----
-
 ## Installation
 
 Clone the repo:
