@@ -90,14 +90,16 @@ const Signup = ({setCurrentPage}) => {
         <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
           <Input 
            value={fullName}
+           autoComplete="name"
            onChange={({target}) => setFullName(target.value)}
            label="Full Name"
            placeholder="John"
            type="text"
           />
 
-          <Input 
+          <Input
            value={email}
+           autoComplete="email"
            onChange={({target}) => setEmail(target.value)}
            label="Email Address"
            placeholder="John@gmail.com"
@@ -106,6 +108,7 @@ const Signup = ({setCurrentPage}) => {
 
           <Input 
            value={password}
+           autoComplete="new-password"
            onChange={({target}) => setPassword(target.value)}
            label="Password"
            placeholder="Min 8 characters"

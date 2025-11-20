@@ -65,6 +65,7 @@ const Login = ({setCurrentPage}) => {
 
         <Input
         value={email}
+        autoComplete="email"
         onChange={({target})=> setEmail(target.value)}
         label="Email Address"
         placeholder="john@example.com"
@@ -73,6 +74,8 @@ const Login = ({setCurrentPage}) => {
 
         <Input
         value={password}
+        auth
+        autoComplete="current-password"
         onChange={({target})=> setPassword(target.value)}
         label="Password"
         placeholder="Min 8 characters"
