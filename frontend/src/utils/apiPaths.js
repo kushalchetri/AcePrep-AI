@@ -1,4 +1,5 @@
-export const BASE_URL = "http://localhost:8000";
+export const BASE_URL = "https://ace-prep-backend.vercel.app/";
+//http://localhost:8000
 
 export const API_PATHS = {
     AUTH: {
