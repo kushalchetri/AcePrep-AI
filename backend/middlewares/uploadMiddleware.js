@@ -1,14 +1,7 @@
 const mutler = require("multer");
 
 // Configure storage
-const storage = mutler.diskStorage({
-    destination:(req, file, cb) => {
-        cb(null, 'uploads/')
-    },
-    filename:(req, file, cb)=>{
-        cb(null, `${Date.now()}-${file.originalname}`)
-    },
-})
+const storage = mutler.memoryStorage();
 
 // file filter
 const fileFilter = (req, file, cb)=>{

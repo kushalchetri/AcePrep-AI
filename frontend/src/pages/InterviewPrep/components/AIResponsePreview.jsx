@@ -153,6 +153,7 @@ function CodeBlock({ code, language}){
             </button>
         </div>
 
+        <div className="overflow-x-auto">
         <Highlight {...defaultProps} code={code} language={language} theme={vsLight}>
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <pre
@@ -163,6 +164,7 @@ function CodeBlock({ code, language}){
               margin: 0,
               padding: "1rem",
               background: "transparent",
+              minWidth:"fit-content"
             }}
           >
             {tokens.map((line, i) => {
@@ -183,6 +185,7 @@ function CodeBlock({ code, language}){
           </pre>
         )}
       </Highlight>
+      </div>
     </div>
 }
 
