@@ -30,7 +30,7 @@ const CreateSessionForm = () => {
         e.preventDefault();
 
         const { role, experience, topicsToFocus } = formData;
-
+        
         if(!role || !experience || !topicsToFocus){
             setError("Please fill all the required fields.")
             return;
@@ -46,7 +46,7 @@ const CreateSessionForm = () => {
                     role,
                     experience,
                     topicsToFocus,
-                    numberOfQuestions: 10
+                    numberOfQuestions: 7
                 }
             )
 

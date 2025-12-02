@@ -5,7 +5,7 @@ It provides a clean UI for generating questions, reviewing answers, and interact
 
 ---
 
-## 🚀 Features
+## Features
 
 - React 18 (SPA)
 - Vite for fast development + builds
@@ -19,7 +19,7 @@ It provides a clean UI for generating questions, reviewing answers, and interact
 
 ---
 
-## 📦 Installation
+## Installation
 
 cd frontend
 npm install

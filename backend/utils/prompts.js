@@ -1,29 +1,23 @@
 const questionAnswerPrompt = (role, experience, topicsToFocus, numberOfQuestions) => `
-You are an AI that generates **strictly valid JSON only**. 
-Do NOT include markdown outside of JSON. 
-Inside the JSON string values, you ARE allowed to include code examples using triple backticks **only if the topic is technical or programming-related**. For non-technical topics (biology, history, psychology, etc.), provide a theory/example explanation instead — do NOT include code.
+You are an AI that outputs ONLY valid JSON.
 
-Instructions:
+RULES:
+1. Return ONLY a JSON array.
+2. Each object must have:
+   { "question": "Short technical question that does NOT require code or examples", "answer": "Plain-text technical answer, ≤30 words" }
+3. STRICTLY NO CODE, NO MARKDOWN, NO EXAMPLES, NO SYMBOLS THAT LOOK LIKE CODE.
+4. Escape newlines as \\n.
+5. Use double quotes ONLY.
+6. Answer MUST be technical and in plain text only, even for programming or GitHub topics.
+7. Questions must be conceptual or theoretical and NOT require any example or code to answer.
+
+Context:
 - Role: ${role}
-- Experience: ${experience} years
+- Experience: ${experience}
 - Topics: ${topicsToFocus}
 - Number of questions: ${numberOfQuestions}
-
-Return **exactly one JSON array** where each object has:
-
-{
-  "question": "Plain text question.",
-  "answer": "Explanation text. Include a code example only if the topic is technical. Non-technical topics should not have any code."
-}
-
-Requirements:
-1. The JSON MUST be valid.
-2. All code blocks MUST stay inside the answer string only.
-3. Use **double quotes** around every string.
-4. Escape newlines using \\n.
-5. Do NOT add any markdown or text outside the JSON array.
-6. Only output the JSON array. Nothing before or after it.
 `;
+
 
 const conceptExplainPrompt = (question) => `
 You are an AI that returns strictly valid JSON only. 

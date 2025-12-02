@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Highlight, { defaultProps } from "prism-react-renderer";
-import vsLight from "prism-react-renderer/themes/vsLight"
+import vsLight from "prism-react-renderer/themes/vsLight";
 import { LuCheck, LuCode, LuCopy } from "react-icons/lu";
 
 const AIResponsePreview = ({ content }) => {
@@ -14,41 +14,53 @@ const AIResponsePreview = ({ content }) => {
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           components={{
-            code({ node, inline, className, children, ...props }) {
+            code({ inline, className, children, ...props }) {
               const match = /language-(\w+)/.exec(className || "");
               const language = match ? match[1] : "";
 
-              const isInline = !className;
+              if (!inline && match) {
+                return (
+                  <CodeBlock
+                    code={String(children).replace(/\n$/, "")}
+                    language={language}
+                  />
+                );
+              }
 
-              return !isInline ? (
-                <CodeBlock
-                  code={String(children).replace(/\n$/, '')}
-                  language={language}
-                />  
-              ) : (
-                <code className="px-1 py-0.5 bg-gray-100 rounded text-sm" {...props}>
-                    {children}
+              return (
+                <code
+                  className="px-1 py-0.5 bg-gray-100 rounded text-sm"
+                  {...props}
+                >
+                  {children}
                 </code>
-              )
+              );
             },
+
             p({ children }) {
               return <p className="mb-4 leading-5">{children}</p>;
             },
+
             strong({ children }) {
               return <strong>{children}</strong>;
             },
+
             em({ children }) {
               return <em>{children}</em>;
             },
+
             ul({ children }) {
               return <ul className="list-disc pl-6 space-y-2 my-4">{children}</ul>;
             },
+
             ol({ children }) {
               return <ol className="list-decimal pl-6 space-y-2 my-4">{children}</ol>;
             },
+
             li({ children }) {
               return <li className="mb-1">{children}</li>;
             },
+
             blockquote({ children }) {
               return (
                 <blockquote className="border-l-4 border-gray-200 pl-4 italic my-4">
@@ -56,6 +68,7 @@ const AIResponsePreview = ({ content }) => {
                 </blockquote>
               );
             },
+
             h1({ children }) {
               return <h1 className="text-2xl font-bold mt-6 mb-4">{children}</h1>;
             },
@@ -68,6 +81,7 @@ const AIResponsePreview = ({ content }) => {
             h4({ children }) {
               return <h4 className="text-base font-bold mt-4 mb-2">{children}</h4>;
             },
+
             a({ href, children }) {
               return (
                 <a href={href} className="text-blue-600 hover:underline">
@@ -75,6 +89,7 @@ const AIResponsePreview = ({ content }) => {
                 </a>
               );
             },
+
             table({ children }) {
               return (
                 <div className="overflow-x-auto my-4">
@@ -84,15 +99,19 @@ const AIResponsePreview = ({ content }) => {
                 </div>
               );
             },
+
             thead({ children }) {
               return <thead className="bg-gray-50">{children}</thead>;
             },
+
             tbody({ children }) {
               return <tbody className="divide-y divide-gray-200">{children}</tbody>;
             },
+
             tr({ children }) {
               return <tr>{children}</tr>;
             },
+
             th({ children }) {
               return (
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -100,93 +119,106 @@ const AIResponsePreview = ({ content }) => {
                 </th>
               );
             },
+
             td({ children }) {
-              return <td className="px-3 py-2 whitespace-nowrap text-sm">{children}</td>;
+              return (
+                <td className="px-3 py-2 whitespace-nowrap text-sm">{children}</td>
+              );
             },
+
             hr() {
               return <hr className="my-6 border-gray-200" />;
             },
+
             img({ src, alt }) {
               return <img src={src} alt={alt} className="my-4 max-w-full rounded" />;
             },
           }}
         >
-          {typeof content === "string" ? content : JSON.stringify(content, null, 2)}
+          {content}
         </ReactMarkdown>
       </div>
     </div>
   );
 };
 
-function CodeBlock({ code, language}){
-    const [copied, setCopied] = useState(false);
+function CodeBlock({ code, language }) {
+  const [copied, setCopied] = useState(false);
 
-    const copyCode = () => {
-        navigator.clipboard.writeText(code);
-        setCopied(true);
-        setTimeout(()=> setCopied(false), 2000)
-    }
+  const copyCode = () => {
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
 
-    return <div className="relative my-6 rounded-lg bg-gray-50 border border-gray-200">
-        <div className="flex items-center justify-between px-4 py-2 bg-gray-100 border-b border-gray-200">
-            <div className="flex items-center space-x-2">
-                <LuCode size={16} className="text-gray-500" />
-                <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-                    {language || 'Code'}
-                </span>
-            </div>
-            <button
-              onClick={copyCode}
-              className="text-gray-500 hover:text-gray-700 focus:outline-none relative group"
-              aria-label="Copy code"
-            >
-              {copied ? (
-                <LuCheck size={16} className="text-green-600" />
-              ): (
-                <LuCopy size={16} />
-              )}
-              {copied && (
-                <span className="absolute right-7 -top-1 bg-gray-200 text-gray-600 text-xs rounded-md px-2 py-1 opacity-80 group-hover:opacity-100 transition">
-                 Copied!
-                </span>
-              )}
-            </button>
+  return (
+    <div className="relative my-6 rounded-lg bg-gray-50 border border-gray-200">
+      <div className="flex items-center justify-between px-4 py-2 bg-gray-100 border-b border-gray-200">
+        <div className="flex items-center space-x-2">
+          <LuCode size={16} className="text-gray-500" />
+          <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+            {language || "Code"}
+          </span>
         </div>
 
-        <div className="overflow-x-auto">
-        <Highlight {...defaultProps} code={code} language={language} theme={vsLight}>
-        {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <pre
-            className={className}
-            style={{
-              ...style,
-              fontSize: 12.5,
-              margin: 0,
-              padding: "1rem",
-              background: "transparent",
-              minWidth:"fit-content"
-            }}
-          >
-            {tokens.map((line, i) => {
-             const lineProps = getLineProps({ line });
-             delete lineProps.key;
+        <button
+          onClick={copyCode}
+          className="text-gray-500 hover:text-gray-700 focus:outline-none relative group"
+          aria-label="Copy code"
+        >
+          {copied ? <LuCheck size={16} className="text-green-600" /> : <LuCopy size={16} />}
+          {copied && (
+            <span className="absolute right-7 -top-1 bg-gray-200 text-gray-600 text-xs rounded-md px-2 py-1 opacity-80 group-hover:opacity-100 transition">
+              Copied!
+            </span>
+          )}
+        </button>
+      </div>
 
-            return (
-            <div key={i} {...lineProps}>
-             {line.map((token, key) => {
-             const tokenProps = getTokenProps({ token });
-             delete tokenProps.key;
+      <div className="overflow-x-auto">
+        <Highlight
+          {...defaultProps}
+          code={code}
+          language={language}
+          theme={vsLight}
+        >
+          {({ className, style, tokens, getLineProps, getTokenProps }) => (
+            <pre
+              className={className}
+              style={{
+                ...style,
+                fontSize: 12.5,
+                margin: 0,
+                padding: "1rem",
+                background: "transparent",
+                minWidth: "fit-content",
+              }}
+            >
+              {tokens.map((line, i) => {
+                let lineProps = getLineProps({ line });
 
-             return <span key={key} {...tokenProps} />;
-             })}
-            </div>
-            );
-            })}
-          </pre>
-        )}
-      </Highlight>
+                // FIX: strip key
+                const { key, ...safeLineProps } = lineProps;
+
+                return (
+                  <div key={i} {...safeLineProps}>
+                    {line.map((token, j) => {
+                      let tokenProps = getTokenProps({ token });
+
+                      // FIX: strip key
+                      const { key: tKey, ...safeTokenProps } = tokenProps;
+
+                      return <span key={j} {...safeTokenProps} />;
+                    })}
+                  </div>
+                );
+              })}
+            </pre>
+          )}
+        </Highlight>
       </div>
     </div>
+  );
 }
 
 export default AIResponsePreview;

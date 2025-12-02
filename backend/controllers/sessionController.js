@@ -3,6 +3,7 @@ const Question = require("../models/Questions")
 
 exports.createSession = async(req, res) => {
     try{
+        console.log(req.body);
         const { role, experience, topicsToFocus, description, questions} = req.body;
         const userId = req.user._id
 
@@ -14,18 +15,15 @@ exports.createSession = async(req, res) => {
             description
         });
 
-        const questionDocs = await Promise.all(
-            questions.map(async(q) => {
-                const question = await Question.create({
-                    session: session._id,
-                    question: q.question,
-                    answer: q.answer
-                });
-                return question._id
-            })
+        const questionDocs = await Question.insertMany(
+            questions.map(q => ({
+                session: session._id,
+                question: q.question,
+                answer: q.answer
+            }))
         )
 
-        session.questions = questionDocs
+        session.questions = questionDocs.map(q => q._id);
         await session.save();
 
         res.status(201).json({sucess:true,session})

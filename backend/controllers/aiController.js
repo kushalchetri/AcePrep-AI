@@ -74,7 +74,6 @@ function extractJsonObject(str) {
 
 const generateInterviewQuestions = async (req, res) => {
     const MODELS = [
-    "gemini-2.5-flash",
     "gemini-2.5-flash-lite",
     ];
 
@@ -83,7 +82,7 @@ const generateInterviewQuestions = async (req, res) => {
     for(const model of MODELS){
         try{
         const { role, experience, topicsToFocus, numberOfQuestions } = req.body;
-
+        
         if(!role || !experience || !topicsToFocus || !numberOfQuestions){
             return res.status(400).json({message:"Missing required fields"})
         }
@@ -92,7 +91,7 @@ const generateInterviewQuestions = async (req, res) => {
 
         const response = await ai.models.generateContent({
             model,
-            contents: prompt
+            contents: [{type: "text", text: prompt}]
         })
         
         const rawText = response.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
@@ -107,7 +106,7 @@ const generateInterviewQuestions = async (req, res) => {
         }
     }
     if(data){
-        res.status(200).json(data)
+        res.status(200).json({content:data})
     }else{
         res.status(500).json({error:"All models failed"})
     }
