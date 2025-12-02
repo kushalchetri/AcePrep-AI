@@ -2,20 +2,25 @@ const questionAnswerPrompt = (role, experience, topicsToFocus, numberOfQuestions
 You are an AI that outputs ONLY valid JSON.
 
 RULES:
-1. Return ONLY a JSON array.
-2. Each object must have:
-   { "question": "Short technical question that does NOT require code or examples", "answer": "Plain-text technical answer, ≤30 words" }
-3. STRICTLY NO CODE, NO MARKDOWN, NO EXAMPLES, NO SYMBOLS THAT LOOK LIKE CODE.
-4. Escape newlines as \\n.
-5. Use double quotes ONLY.
-6. Answer MUST be technical and in plain text only, even for programming or GitHub topics.
-7. Questions must be conceptual or theoretical and NOT require any example or code to answer.
+1. Return ONLY a JSON array of length ${numberOfQuestions}.
+2. Each element MUST be an object with exactly these keys:
+   { "question": "Short important technical question that does NOT require code or examples", 
+     "answer": "Plain-text technical answer with multiple descriptive points, Minimum 50 words",
+     "topic": "One topic from the provided list"
+   }
+3. Questions must be evenly distributed across topics:
+   - There are ${topicsToFocus.length} topics.
+   - Each topic MUST receive at least Math.floor(${numberOfQuestions} / ${topicsToFocus.length}) questions.
+   - Any remaining questions MUST be randomly assigned among the topics.
+4. STRICTLY NO markdown, NO symbols that look like code.
+5. Escape newlines as \\n.
+6. Use double quotes ONLY.
+7. Questions must be conceptual or theoretical; no coding or example-based questions.
 
 Context:
 - Role: ${role}
 - Experience: ${experience}
-- Topics: ${topicsToFocus}
-- Number of questions: ${numberOfQuestions}
+- Topics: ${JSON.stringify(topicsToFocus)}
 `;
 
 

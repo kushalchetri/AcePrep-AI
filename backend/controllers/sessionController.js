@@ -3,7 +3,6 @@ const Question = require("../models/Questions")
 
 exports.createSession = async(req, res) => {
     try{
-        console.log(req.body);
         const { role, experience, topicsToFocus, description, questions} = req.body;
         const userId = req.user._id
 
@@ -15,8 +14,10 @@ exports.createSession = async(req, res) => {
             description
         });
 
+        const questionsArray = Array.isArray(questions?.content) ? questions.content : [];
+
         const questionDocs = await Question.insertMany(
-            questions.map(q => ({
+            questionsArray.map(q => ({
                 session: session._id,
                 question: q.question,
                 answer: q.answer

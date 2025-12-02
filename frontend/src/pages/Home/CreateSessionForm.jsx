@@ -46,7 +46,7 @@ const CreateSessionForm = () => {
                     role,
                     experience,
                     topicsToFocus,
-                    numberOfQuestions: 7
+                    numberOfQuestions: 10
                 }
             )
 

@@ -96,7 +96,7 @@ const InterviewPrep = () => {
         }
       )
 
-      const generatedQuestions = aiResponse.data;
+      const generatedQuestions = aiResponse.data.content;
 
       const response = await axiosInstance.post(
         API_PATHS.QUESTION.ADD_TO_SESSION,
@@ -112,9 +112,9 @@ const InterviewPrep = () => {
       }
     }catch(error){
       if(error.response && error.response.data.message){
-        setError(error.response.data.message)
+        setErrorMsg(error.response.data.message)
       }else{
-        setError("Something went wrong. Please try again.");
+        setErrorMsg("Something went wrong. Please try again.");
       }
     }finally{
       setIsUpdateLoader(false)

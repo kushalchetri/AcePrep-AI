@@ -11,7 +11,6 @@ const Navbar = () => {
           Ace Prep AI
         </h2>
         </Link>
-
         <ProfileInfoCard/>
       </div>
     </div>
